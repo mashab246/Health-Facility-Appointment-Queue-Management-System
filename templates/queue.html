@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Queue</title>
+</head>
+<body>
+
+<h2>Patient Queue</h2>
+
+<table border="1">
+    <tr>
+        <th>Queue No</th>
+        <th>Patient Name</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for q in queue %}
+    <tr>
+        <td>{{ q[2] }}</td>
+        <td>{{ q[1] }}</td>
+        <td>{{ q[3] }}</td>
+        <td>
+            <a href="/queue/update/{{ q[0] }}/in_progress">Next</a>
+            <a href="/queue/update/{{ q[0] }}/done">Done</a>
+            <a href="/consult/{{ q[0] }}">Start</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
