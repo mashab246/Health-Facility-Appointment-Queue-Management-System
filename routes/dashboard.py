@@ -2,9 +2,6 @@ from flask import render_template, session, redirect, Blueprint
 from routes.utils import role_required
 
 dashboard_bp = Blueprint("dashboard", __name__)
-# =========================
-# DOCTOR DASHBOARD
-# =========================
 @dashboard_bp.route('/doctor/dashboard')
 @role_required('doctor')
 def doctor_dashboard():
@@ -13,7 +10,8 @@ def doctor_dashboard():
 
     # Patients waiting
     cur.execute("""
-        SELECT queue.queue_id, patients.name, queue.queue_number
+        SELECT queue.queue_id, patients.first_name,
+       patients.last_name, queue.queue_number
         FROM queue
         JOIN patients ON queue.patient_id = patients.patient_id
         WHERE queue.status='waiting'
@@ -24,9 +22,6 @@ def doctor_dashboard():
     return render_template('doctor_dashboard.html', queue=queue)
 
 
-# =========================
-# RECEPTION DASHBOARD
-# =========================
 @dashboard_bp.route('/reception/dashboard')
 @role_required('receptionist')
 def reception_dashboard():
@@ -53,9 +48,6 @@ def reception_dashboard():
     )
 
 
-# =========================
-# ADMIN DASHBOARD
-# =========================
 @dashboard_bp.route('/admin/dashboard')
 @role_required('admin')
 def admin_dashboard():

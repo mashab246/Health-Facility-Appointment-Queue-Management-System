@@ -6,32 +6,112 @@ auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route('/register-user', methods=['GET', 'POST'])
 def register_user():
-    from app2 import app, mysql
+
+    from werkzeug.security import generate_password_hash
+    from app2 import mysql
+
     if request.method == 'POST':
+
         username = request.form['username']
         password = request.form['password']
         role = request.form['role']
 
-        # Validate role (important)
         if role not in ['doctor', 'receptionist']:
             return "Invalid role selected"
 
-        from werkzeug.security import generate_password_hash
         hashed_password = generate_password_hash(password)
 
         cur = mysql.connection.cursor()
 
-        # Check duplicate username
-        cur.execute("SELECT * FROM users WHERE username=%s", (username,))
-        if cur.fetchone():
-            return "Username already exists"
+        cur.execute(
+            "SELECT * FROM users WHERE username=%s",
+            (username,)
+        )
 
-        cur.execute("""
-            INSERT INTO users (username, password, role)
-            VALUES (%s, %s, %s)
-        """, (username, hashed_password, role))
+        existing_user = cur.fetchone()
+
+        if existing_user:
+            cur.close()
+            return render_template(
+                'register_user.html',
+                error="Username already exists"
+            )
+
+        cur.execute(
+            """
+            INSERT INTO users(username, password, role)
+            VALUES(%s, %s, %s)
+            """,
+            (username, hashed_password, role)
+        )
 
         mysql.connection.commit()
+
+        user_id = cur.lastrowid
+
+        if role == 'doctor':
+
+            full_name = request.form['full_name']
+            specialization = request.form['specialization']
+            department = request.form['department']
+            phone = request.form['phone']
+            email = request.form['email']
+
+            cur.execute(
+                """
+                INSERT INTO doctors(
+                    user_id,
+                    full_name,
+                    specialization,
+                    department,
+                    phone,
+                    email
+                )
+                VALUES(%s, %s, %s, %s, %s, %s)
+                """,
+                (
+                    user_id,
+                    full_name,
+                    specialization,
+                    department,
+                    phone,
+                    email
+                )
+            )
+
+            mysql.connection.commit()
+
+
+        elif role == 'receptionist':
+
+            full_name = request.form['receptionist_name']
+            phone = request.form['receptionist_phone']
+            email = request.form['receptionist_email']
+            shift_time = request.form['shift_time']
+
+            cur.execute(
+                """
+                INSERT INTO receptionists(
+                    user_id,
+                    full_name,
+                    phone,
+                    email,
+                    shift_time
+                )
+                VALUES(%s, %s, %s, %s, %s)
+                """,
+                (
+                    user_id,
+                    full_name,
+                    phone,
+                    email,
+                    shift_time
+                )
+            )
+
+            mysql.connection.commit()
+
+        cur.close()
 
         return redirect('/login')
 

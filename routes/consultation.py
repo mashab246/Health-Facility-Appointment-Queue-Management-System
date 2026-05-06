@@ -21,10 +21,12 @@ def start_consultation(queue_id):
 
 @consultation_bp.route('/consult/<int:queue_id>/form', methods=['GET', 'POST'])
 def consultation_form(queue_id):
+    from app2 import app, mysql
     cur = mysql.connection.cursor()
 
     cur.execute("""
-        SELECT queue.queue_id, patients.patient_id, patients.name
+        SELECT queue.queue_id, patients.patient_id, patients.first_name,
+       patients.last_name
         FROM queue
         JOIN patients ON queue.patient_id = patients.patient_id
         WHERE queue.queue_id = %s

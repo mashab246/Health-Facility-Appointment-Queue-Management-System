@@ -51,7 +51,8 @@ def view_queue():
     cur = mysql.connection.cursor()
 
     cur.execute("""
-        SELECT queue.queue_id, patients.name, queue.queue_number, queue.status
+        SELECT queue.queue_id, patients.first_name,
+       patients.last_name, queue.queue_number, queue.status
         FROM queue
         JOIN patients ON queue.patient_id = patients.patient_id
         ORDER BY queue.queue_number ASC
