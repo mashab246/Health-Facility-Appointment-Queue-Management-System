@@ -10,7 +10,7 @@ def start_consultation(queue_id):
     cur = mysql.connection.cursor()
 
     cur.execute("""
-        UPDATE queue SET status='in_progress'
+        UPDATE queue SET status='In Consultation'
         WHERE queue_id=%s
     """, (queue_id,))
 
@@ -39,7 +39,7 @@ def consultation_form(queue_id):
         doctor_id = 1
 
         cur.execute("""
-            INSERT INTO consultations (patient_id, doctor_id, notes)
+            INSERT INTO consultations (patient_id, doctor_id, consultation_notes)
             VALUES (%s, %s, %s)
         """, (data[1], doctor_id, notes))
 

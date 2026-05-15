@@ -19,6 +19,7 @@ def appointments():
         patient_id = request.form['patient_id']
         doctor_id = request.form['doctor_id']
         appointment_date = request.form['date']
+        appointment_time = request.form['time']
 
         # Prevent double booking
         cur.execute("""
@@ -35,9 +36,9 @@ def appointments():
             )
 
         cur.execute("""
-            INSERT INTO appointments (patient_id, doctor_id, appointment_date)
-            VALUES (%s, %s, %s)
-        """, (patient_id, doctor_id, appointment_date))
+            INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time)
+            VALUES (%s, %s, %s, %s)
+        """, (patient_id, doctor_id, appointment_date, appointment_time))
 
         mysql.connection.commit()
 
