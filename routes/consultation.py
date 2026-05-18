@@ -10,7 +10,7 @@ def start_consultation(queue_id):
     cur = mysql.connection.cursor()
 
     cur.execute("""
-        UPDATE queue SET status='In Consultation'
+        UPDATE queue SET status='in_progress'
         WHERE queue_id=%s
     """, (queue_id,))
 
