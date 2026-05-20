@@ -4,7 +4,10 @@ from routes.utils import role_required
 appointment_bp = Blueprint("appointment", __name__)
 
 @appointment_bp.route('/appointments', methods=['GET', 'POST'])
-@role_required('receptionist')
+@role_required(
+    'receptionist',
+    'patient'
+)
 def appointments():
     from app2 import app, mysql
     cur = mysql.connection.cursor()

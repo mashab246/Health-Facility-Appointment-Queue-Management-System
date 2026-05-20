@@ -16,7 +16,7 @@ def register_user():
         password = request.form['password']
         role = request.form['role']
 
-        if role not in ['doctor', 'receptionist']:
+        if role not in ['doctor', 'receptionist', 'patient']:
             return "Invalid role selected"
 
         hashed_password = generate_password_hash(password)
@@ -119,42 +119,59 @@ def register_user():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    from app2 import app, mysql
-    # If already logged in → redirect based on role
-    if 'user_id' in session:
-        role = session.get('role')
 
-        if role == 'doctor':
-            return redirect('/doctor/dashboard')
-        elif role == 'receptionist':
-            return redirect('/reception/dashboard')
-        elif role == 'admin':
-            return redirect('/admin/dashboard')
+    from app2 import mysql
 
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+
+        username = request.form['username']
+        password = request.form['password']
 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT user_id, username, password, role FROM users WHERE username=%s", (username,))
+
+        cur.execute(
+            "SELECT * FROM users WHERE username=%s",
+            (username,)
+        )
+
         user = cur.fetchone()
+
         cur.close()
 
-        # Check user + password
-        if user and check_password_hash(user[2], password):
-            session['user_id'] = user[0]
-            session['username'] = user[1]
-            session['role'] = user[3]
+        # Check if user exists
+        if user:
 
-            # 🔐 Role-based redirect
-            if user[3] == 'doctor':
-                return redirect('/doctor/dashboard')
-            elif user[3] == 'receptionist':
-                return redirect('/reception/dashboard')
-            elif user[3] == 'admin':
-                return redirect('/admin/dashboard')
+            # user[2] = password column
+            if check_password_hash(user[2], password):
 
-        return render_template('login.html', error="Invalid username or password")
+                session['user_id'] = user[0]
+                session['username'] = user[1]
+                session['role'] = user[3]
+
+                # Redirect based on role
+                if user[3] == 'doctor':
+                    return redirect('/doctor/dashboard')
+
+                elif user[3] == 'receptionist':
+                    return redirect('/reception/dashboard')
+
+                elif user[3] == 'patient':
+                    return redirect('/patient/dashboard')
+
+                else:
+                    return redirect('/')
+
+            else:
+                return render_template(
+                    'login.html',
+                    error='Invalid password'
+                )
+
+        else:
+            return render_template(
+                'login.html',
+                error='User does not exist'
+            )
 
     return render_template('login.html')
 
@@ -163,3 +180,99 @@ def login():
 def logout():
     session.clear()
     return redirect('/login')
+
+@auth_bp.route('/patient-register', methods=['GET', 'POST'])
+def patient_register():
+
+    from werkzeug.security import generate_password_hash
+    from app2 import mysql
+
+    if request.method == 'POST':
+
+        # USER ACCOUNT DATA
+        username = request.form['username']
+        password = generate_password_hash(
+            request.form['password']
+        )
+
+        role = 'patient'
+
+        # PATIENT DATA
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        gender = request.form['gender']
+        date_of_birth = request.form['date_of_birth']
+        phone = request.form['phone']
+        email = request.form['email']
+        address = request.form['address']
+        emergency_contact = request.form['emergency_contact']
+
+        cur = mysql.connection.cursor()
+
+        # CHECK DUPLICATE USERNAME
+        cur.execute(
+            "SELECT * FROM users WHERE username=%s",
+            (username,)
+        )
+
+        if cur.fetchone():
+
+            return render_template(
+                'patient_register.html',
+                error="Username already exists"
+            )
+
+        # CREATE USER ACCOUNT
+        cur.execute("""
+            INSERT INTO users(
+                username,
+                password,
+                role
+            )
+            VALUES(%s, %s, %s)
+        """, (
+            username,
+            password,
+            role
+        ))
+
+        mysql.connection.commit()
+
+        user_id = cur.lastrowid
+
+        # CREATE PATIENT PROFILE
+        cur.execute("""
+            INSERT INTO patients(
+                user_id,
+                first_name,
+                last_name,
+                gender,
+                date_of_birth,
+                phone,
+                email,
+                address,
+                emergency_contact
+            )
+            VALUES(
+                %s,%s,%s,%s,%s,%s,%s,%s,%s
+            )
+        """, (
+            user_id,
+            first_name,
+            last_name,
+            gender,
+            date_of_birth,
+            phone,
+            email,
+            address,
+            emergency_contact
+        ))
+
+        mysql.connection.commit()
+
+        cur.close()
+
+        return redirect('/login')
+
+    return render_template('patient_register.html')
+

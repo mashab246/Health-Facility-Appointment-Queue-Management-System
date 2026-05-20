@@ -1,146 +1,139 @@
-Health Facility Appointment & Queue Management System
+# Health Facility Appointment and Queue Management System
 
-A web-based healthcare management system developed using Python Flask, MySQL, HTML, CSS, and Bootstrap to improve patient registration, appointment booking, queue management, and consultation workflows in healthcare facilities.
+##  Project Description
 
+The Health Facility Appointment and Queue Management System is a web-based healthcare management solution developed to improve efficiency in hospitals and clinics by automating patient registration, appointment scheduling, queue handling, and consultation management.
 
----
+The system reduces long waiting times, improves patient flow, minimizes paperwork, and enhances communication between patients, receptionists, and doctors.
 
-Project Overview
+The project was developed using:
 
-This system was developed to solve common problems faced in health facilities such as:
-
-Long patient queues
-
-Manual patient registration
-
-Poor appointment tracking
-
-Lack of queue visibility
-
-Delays in consultation management
-
-Inefficient patient flow
-
-
-The system digitizes and automates healthcare appointment and queue management processes.
-
+* Python Flask
+* MySQL
+* HTML
+* CSS
+* Bootstrap
+* Jinja2 Templates
 
 ---
 
-Features
+#  Objectives
 
-Authentication & Authorization
+## Main Objective
 
-User login system
-
-Secure password hashing
-
-Role-based access control
-
-Doctor dashboard
-
-Receptionist dashboard
-
-Admin dashboard
-
-
+To develop a web-based system that automates appointment booking and queue management processes in healthcare facilities.
 
 ---
 
-Patient Management
+## Specific Objectives
 
-Register patients
-
-View patient records
-
-Store patient details in MySQL database
-
-Prevent duplicate patient registration
-
-
+* To allow patients to register online
+* To allow patients to book appointments
+* To allow receptionists to manage walk-in patients
+* To automate queue number generation
+* To allow doctors to manage consultations
+* To improve patient flow visibility
+* To reduce congestion and waiting time
 
 ---
 
-Appointment Management
+#  System Features
 
-Book appointments
+## Authentication Module
 
-Prevent double booking
-
-Assign doctors
-
-Schedule appointment dates and times
-
-
+* User login
+* Password hashing
+* Session management
+* Role-based access control
 
 ---
 
-Queue Management
+## Patient Management
 
-Patient check-in
-
-Generate queue numbers
-
-Track queue status
-
-Call next patient
-
-Prevent duplicate queue entries
-
-
+* Patient self-registration
+* Receptionist patient registration
+* View patient records
+* Store patient profiles securely
 
 ---
 
-Consultation Management
+## Appointment Management
 
-Doctor consultation interface
-
-Record diagnosis and treatment notes
-
-Update consultation status
-
-
+* Appointment booking
+* Online patient appointment booking
+* Receptionist appointment scheduling
+* Prevent double booking
+* Doctor assignment
 
 ---
 
-Reporting
+## Queue Management
 
-Daily appointments
-
-Queue statistics
-
-Patient records
-
-Consultation reports
-
-
+* Generate queue numbers
+* Patient check-in
+* Queue tracking
+* Call next patient
+* Queue status updates
 
 ---
 
-Technologies Used
+## Consultation Management
 
-Technology	Purpose
-
-Python	Backend programming
-Flask	Web framework
-MySQL	Database
-HTML	Frontend structure
-CSS	Styling
-Bootstrap	Responsive UI
-Jinja2	Template rendering
-
-
+* Doctor consultation dashboard
+* Consultation notes
+* Diagnosis records
+* Treatment management
 
 ---
 
-Project Structure
+## Dashboard Management
 
-Health Facility Appointment & Queue Management System/
+### Receptionist Dashboard
+
+* Register patients
+* Manage queue
+* Book appointments
+
+### Doctor Dashboard
+
+* View patient queue
+* Manage consultations
+
+### Patient Dashboard
+
+* Book appointments
+* View appointments
+* Logout
+
+---
+
+#  Technologies Used
+
+| Technology | Purpose             |
+| ---------- | ------------------- |
+| Python     | Backend programming |
+| Flask      | Web framework       |
+| MySQL      | Database management |
+| HTML       | Frontend structure  |
+| CSS        | Styling             |
+| Bootstrap  | Responsive design   |
+| Jinja2     | Dynamic templates   |
+
+---
+
+#  Project Structure
+
+```text id="u4m8zr"
+Health-Facility-Appointment-Queue-System/
 │
 ├── app2.py
 ├── config.py
 ├── requirements.txt
 ├── README.md
+├── .gitignore
+│
+├── database/
+│   └── health_system_db.sql
 │
 ├── routes/
 │   ├── auth.py
@@ -154,185 +147,217 @@ Health Facility Appointment & Queue Management System/
 │   ├── login.html
 │   ├── register_user.html
 │   ├── register_patient.html
+│   ├── patient_register.html
+│   ├── patient_dashboard.html
 │   ├── appointments.html
 │   ├── queue.html
 │   ├── doctor_dashboard.html
-│   ├── reception_dashboard.html
-│   └── admin_dashboard.html
+│   └── reception_dashboard.html
 │
 ├── static/
-│   └── style.css
+│   ├── style.css
+│   └── images/
 │
-└── database/
-    └── health_system_db.sql
-
+└── screenshots/
+```
 
 ---
 
-Installation Guide
+#  Database Tables
 
-1. Clone Repository
+The system uses the following tables:
 
+* users
+* doctors
+* receptionists
+* patients
+* appointments
+* queue
+* consultations
+
+---
+
+#  Installation Guide
+
+## Step 1 — Clone Repository
+
+```bash id="z7m3qc"
 git clone https://github.com/your-username/health-facility-system.git
-
+```
 
 ---
 
-2. Open Project Folder
+## Step 2 — Open Project
 
+```bash id="r2k8tw"
 cd health-facility-system
-
+```
 
 ---
 
-3. Create Virtual Environment
+## Step 3 — Create Virtual Environment
 
+```bash id="x5n1pv"
 python -m venv venv
-
+```
 
 ---
 
-4. Activate Virtual Environment
+## Step 4 — Activate Virtual Environment
 
-Windows
+### Windows
 
+```bash id="m9q4yr"
 venv\Scripts\activate
+```
 
-Linux/Mac
+### Linux/Mac
 
+```bash id="p4t7ws"
 source venv/bin/activate
-
+```
 
 ---
 
-5. Install Requirements
+## Step 5 — Install Dependencies
 
+```bash id="v1m8qx"
 pip install -r requirements.txt
-
+```
 
 ---
 
-Database Setup
+# 🗄️ Database Setup
 
-Create Database
+## Create Database
 
+```sql id="f6r2kn"
 CREATE DATABASE health_system_db;
-
+```
 
 ---
 
-Import SQL File
+## Import SQL Dump
 
 Import:
 
+```text id="d8x5pt"
 health_system_db.sql
+```
 
-into MySQL Workbench or phpMyAdmin.
+using:
 
+* MySQL Workbench
+* phpMyAdmin
+* Query Browser
 
 ---
 
-Configure Database
+# Configure Database Connection
 
-Update config.py
+Open:
 
+```text id="j3w7rm"
+config.py
+```
+
+Update:
+
+```python id="u7m1vc"
 MYSQL_HOST = "localhost"
 MYSQL_USER = "root"
-MYSQL_PASSWORD = "your_password"
+MYSQL_PASSWORD = ""
 MYSQL_DB = "health_system_db"
-
+```
 
 ---
 
-Run The Application
+# Running The System
 
+Run:
+
+```bash id="q5x9nt"
 python app2.py
-
+```
 
 ---
 
-Open In Browser
+# Access System
 
+Open browser:
+
+```text id="h1v4mq"
 http://127.0.0.1:5000/login
-
-
----
-
-User Roles
-
-Role	Permissions
-
-Admin	Full system access
-Receptionist	Register patients, book appointments, manage queue
-Doctor	View queue, manage consultations
-
-
+```
 
 ---
 
-Security Features
+# User Roles
 
-Password hashing
-
-Session management
-
-Role-based access
-
-Duplicate validation
-
-SQL injection prevention using parameterized queries
-
-
+| Role         | Responsibilities                          |
+| ------------ | ----------------------------------------- |
+| Admin        | System management                         |
+| Receptionist | Patient registration and queue management |
+| Doctor       | Consultation management                   |
+| Patient      | Appointment booking                       |
 
 ---
 
-Database Tables
+# Security Features
 
-users
-
-doctors
-
-receptionists
-
-patients
-
-appointments
-
-queue
-
-consultations
-
-
+* Password hashing
+* Session management
+* Role-based access control
+* Duplicate prevention
+* SQL injection prevention
 
 ---
 
-Future Improvements
+# Screenshots
 
-SMS notifications
+The repository includes screenshots for:
 
-Email reminders
-
-Online patient portal
-
-Mobile application
-
-AI queue prediction
-
-Analytics dashboard
-
-PDF report generation
+* Login page
+* Patient registration
+* Appointment booking
+* Queue management
+* Doctor dashboard
+* Reception dashboard
+* Patient dashboard
 
 ---
 
-Developed By
+# Future Improvements
 
-Musa Galiwango
-
-Software Engineering Project
-
+* SMS notifications
+* Email reminders
+* Mobile application
+* Online payment integration
+* AI queue prediction
+* Report analytics
+* Telemedicine support
 
 ---
 
-License
+# Software Engineering Concepts Applied
 
-This project is for academic and educational purposes.
+* Agile Development Methodology
+* Modular Architecture
+* Role-Based Access Control
+* Database Normalization
+* MVC Design Principles
+* UML System Design
+
+---
+
+# Developed By
+
+**Musa Galiwango**
+
+Academic Software Engineering Project
+
+---
+
+# License
+
+This project is intended for academic and educational purposes only.

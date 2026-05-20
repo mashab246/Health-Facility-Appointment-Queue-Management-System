@@ -72,3 +72,12 @@ def admin_dashboard():
         doctors=doctors,
         receptionists=receptionists
     )
+    
+    
+@dashboard_bp.route('/patient/dashboard')
+@role_required('patient')
+def patient_dashboard():
+
+    return render_template(
+        'patient_dashboard.html'
+    )

@@ -1,326 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>User Registration</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <script>
-
-        function toggleFields() {
-
-            let role = document.getElementById("role").value;
-
-            let doctorFields = document.getElementById("doctor-fields");
-
-            let receptionistFields = document.getElementById("receptionist-fields");
-
-            // Hide all first
-            doctorFields.style.display = "none";
-            receptionistFields.style.display = "none";
-
-            // Show relevant fields
-            if (role === "doctor") {
-                doctorFields.style.display = "block";
-            }
-
-            if (role === "receptionist") {
-                receptionistFields.style.display = "block";
-            }
+    <style>
+        body{
+            background: #f4f6f9;
+            font-family: Arial, sans-serif;
         }
 
-    </script>
+        .register-container{
+            width: 450px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
 
+        .register-header{
+            background: #0d6efd;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            margin: -30px -30px 30px -30px;
+        }
+
+        .btn-register{
+            width: 100%;
+        }
+
+        .form-control,
+        .form-select{
+            margin-bottom: 15px;
+        }
+
+        .extra-fields{
+            display: none;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-
-<div class="container mt-5">
-
-    <div class="row justify-content-center">
-
-        <div class="col-md-7">
-
-            <div class="card shadow-lg">
-
-                <div class="card-header bg-primary text-white text-center">
-                    <h3>User Registration</h3>
-                </div>
-
-                <div class="card-body">
-
-                    {% if error %}
-                        <div class="alert alert-danger">
-                            {{ error }}
-                        </div>
-                    {% endif %}
-
-                    <form method="POST">
-
-                        <!-- USERNAME -->
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Username
-                            </label>
-
-                            <input
-                                type="text"
-                                name="username"
-                                class="form-control"
-                                required
-                            >
-
-                        </div>
-
-                        <!-- PASSWORD -->
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Password
-                            </label>
-
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control"
-                                required
-                            >
-
-                        </div>
-
-                        <!-- ROLE -->
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Select Role
-                            </label>
-
-                            <select
-                                name="role"
-                                id="role"
-                                class="form-select"
-                                onchange="toggleFields()"
-                                required
-                            >
-
-                                <option value="">
-                                    -- Select Role --
-                                </option>
-
-                                <option value="doctor">
-                                    Doctor
-                                </option>
-
-                                <option value="receptionist">
-                                    Receptionist
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <!-- DOCTOR FIELDS -->
-                        <div id="doctor-fields" style="display:none;">
-
-                            <hr>
-
-                            <h5 class="text-primary mb-3">
-                                Doctor Information
-                            </h5>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Full Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="full_name"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Specialization
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="specialization"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Department
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="department"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Phone Number
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Email Address
-                                </label>
-
-                                <input
-                                    type="email"
-                                    name="email"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                        </div>
-
-                        <!-- RECEPTIONIST FIELDS -->
-                        <div id="receptionist-fields" style="display:none;">
-
-                            <hr>
-
-                            <h5 class="text-success mb-3">
-                                Receptionist Information
-                            </h5>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Full Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="receptionist_name"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Phone Number
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="receptionist_phone"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Email Address
-                                </label>
-
-                                <input
-                                    type="email"
-                                    name="receptionist_email"
-                                    class="form-control"
-                                >
-
-                            </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Shift Time
-                                </label>
-
-                                <select
-                                    name="shift_time"
-                                    class="form-select"
-                                >
-
-                                    <option value="">
-                                        Select Shift
-                                    </option>
-
-                                    <option value="Morning">
-                                        Morning
-                                    </option>
-
-                                    <option value="Afternoon">
-                                        Afternoon
-                                    </option>
-
-                                    <option value="Night">
-                                        Night
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <!-- SUBMIT -->
-                        <div class="d-grid">
-
-                            <button
-                                type="submit"
-                                class="btn btn-primary"
-                            >
-                                Register User
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-                <div class="card-footer text-center">
-
-                    <a href="/login">
-                        Already have an account? Login
-                    </a>
-
-                </div>
-
-            </div>
+<body>
+
+<div class="register-container">
+
+    <div class="register-header">
+        <h2>User Registration</h2>
+    </div>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+
+        <!-- Username -->
+        <label>Username</label>
+        <input type="text"
+               name="username"
+               class="form-control"
+               placeholder="Enter Username"
+               required>
+
+        <!-- Password -->
+        <label>Password</label>
+        <input type="password"
+               name="password"
+               class="form-control"
+               placeholder="Enter Password"
+               required>
+
+        <!-- Role -->
+        <label>Select Role</label>
+        <select name="role"
+                id="role"
+                class="form-select"
+                onchange="toggleFields()"
+                required>
+
+            <option value="">-- Select Role --</option>
+            <option value="doctor">Doctor</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="patient">Patient</option>
+
+        </select>
+
+        <!-- Common Fields -->
+        <div class="extra-fields" id="commonFields">
+
+            <label>Full Name</label>
+            <input type="text"
+                   name="full_name"
+                   class="form-control"
+                   placeholder="Enter Full Name">
+
+            <label>Phone</label>
+            <input type="text"
+                   name="phone"
+                   class="form-control"
+                   placeholder="Enter Phone Number">
+
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   class="form-control"
+                   placeholder="Enter Email">
 
         </div>
 
+        <!-- Doctor Fields -->
+        <div class="extra-fields" id="doctorFields">
+
+            <label>Specialization</label>
+            <input type="text"
+                   name="specialization"
+                   class="form-control"
+                   placeholder="Doctor Specialization">
+
+            <label>Department</label>
+            <input type="text"
+                   name="department"
+                   class="form-control"
+                   placeholder="Department">
+
+        </div>
+
+        <!-- Patient Fields -->
+        <div class="extra-fields" id="patientFields">
+
+            <label>Gender</label>
+            <select name="gender" class="form-select">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label>Date of Birth</label>
+            <input type="date"
+                   name="dob"
+                   class="form-control">
+
+            <label>Address</label>
+            <input type="text"
+                   name="address"
+                   class="form-control"
+                   placeholder="Enter Address">
+
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="btn btn-primary btn-register">
+            Register
+        </button>
+
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/login">Already have an account? Login</a>
     </div>
 
 </div>
+
+<script>
+
+function toggleFields(){
+
+    let role = document.getElementById("role").value;
+
+    let commonFields = document.getElementById("commonFields");
+    let doctorFields = document.getElementById("doctorFields");
+    let patientFields = document.getElementById("patientFields");
+
+    commonFields.style.display = "block";
+
+    doctorFields.style.display = "none";
+    patientFields.style.display = "none";
+
+    if(role === "doctor"){
+        doctorFields.style.display = "block";
+    }
+
+    if(role === "patient"){
+        patientFields.style.display = "block";
+    }
+}
+
+</script>
 
 </body>
 </html>
