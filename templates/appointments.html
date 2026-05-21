@@ -13,18 +13,22 @@
 
 <form method="POST">
 
-    <label>Patient:</label><br>
-    <select name="patient_id" required>
-        {% for p in patients %}
-            <option value="{{ p[0] }}">{{ p[1] }}</option>
-        {% endfor %}
-    </select><br><br>
+    {% if session['role'] == 'receptionist' %}
+    <label>Patient:</label>
+    <select name="patient_id" class="form-control" required>
+    {% for patient in patients %}
+        <option value="{{ patient[0] }}">{{ patient[1] }}</option>
+    {% endfor %}
+    </select>
+    {% endif %} 
 
-    <label>Doctor:</label><br>
-    <select name="doctor_id" required>
-        {% for d in doctors %}
-            <option value="{{ d[0] }}">{{ d[1] }}</option>
-        {% endfor %}
+    <label>Doctor:</label>
+    <select name="doctor_id" class="form-control" required>
+    {% for doctor in doctors %}
+        <option value="{{ doctor[0] }}">
+            {{ doctor[1] }} - {{ doctor[2] }}
+        </option>
+    {% endfor %}
     </select><br><br>
 
     <label>Date:</label><br>

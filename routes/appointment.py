@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, Blueprint
+from flask import render_template, request, redirect, Blueprint, session
 from routes.utils import role_required
 
 appointment_bp = Blueprint("appointment", __name__)
@@ -19,10 +19,16 @@ def appointments():
     doctors = cur.fetchall()
 
     if request.method == 'POST':
-        patient_id = request.form['patient_id']
         doctor_id = request.form['doctor_id']
         appointment_date = request.form['date']
         appointment_time = request.form['time']
+        
+        
+
+        if session['role'] == 'patient':
+            patient_id = session['patient_id']
+        else:
+            patient_id = request.form['patient_id']
 
         # Prevent double booking
         cur.execute("""
